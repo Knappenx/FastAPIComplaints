@@ -8,6 +8,7 @@ from models.enums import RoleType
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 class UserManager:
     @staticmethod
     async def register(user_data):
@@ -21,7 +22,9 @@ class UserManager:
 
     @staticmethod
     async def login(user_data):
-        user_do = await database.fetch_one(user.select().where(user.c.email == user_data["email"]))
+        user_do = await database.fetch_one(
+            user.select().where(user.c.email == user_data["email"])
+        )
         if not user_do:
             raise HTTPException(400, "Wrong email or password")
         elif not pwd_context.verify(user_data["password"], user_do["password"]):
@@ -38,4 +41,6 @@ class UserManager:
 
     @staticmethod
     async def change_role(role: RoleType, user_id):
-        await database.execute(user.update().where(user.c.id == user_id).values(role=role))
+        await database.execute(
+            user.update().where(user.c.id == user_id).values(role=role)
+        )

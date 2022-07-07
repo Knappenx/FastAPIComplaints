@@ -13,7 +13,6 @@ class ComplaintManager:
             query = query.where(complaint.c.state == State.pending)
         return await database.fetch_all(query)
 
-        
     @staticmethod
     async def create_complaint(complaint_data, user):
         complaint_data["complainer_id"] = user["id"]
@@ -26,8 +25,16 @@ class ComplaintManager:
 
     @staticmethod
     async def approve(id_):
-        await database.execute(complaint.update().where(complaint.c.id ==  id_).values(status=State.approved))
+        await database.execute(
+            complaint.update()
+            .where(complaint.c.id == id_)
+            .values(status=State.approved)
+        )
 
     @staticmethod
     async def reject(id_):
-        await database.execute(complaint.update().where(complaint.c.id ==  id_).values(status=State.rejected))
+        await database.execute(
+            complaint.update()
+            .where(complaint.c.id == id_)
+            .values(status=State.rejected)
+        )
