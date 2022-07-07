@@ -1,0 +1,13 @@
+from pydoc import describe
+from pydantic import BaseModel
+
+
+class BaseComplaint(BaseModel):
+    title: str
+    description: str
+    photo_url: str
+    amount: float
+
+
+class UserBase(BaseModel):
+    email: str
